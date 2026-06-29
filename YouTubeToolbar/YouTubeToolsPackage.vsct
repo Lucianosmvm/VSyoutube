@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h"/>
+  <Extern href="vsshlids.h"/>
+
+  <Commands package="guidYouTubeToolsPackage">
+
+    <Buttons>
+      <Button guid="guidYouTubeToolsPackageCmdSet" id="YouTubeToolsCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidSHLMainMenu" id="IDG_VS_WNDO_OTRWNDWS1"/>
+        <Icon guid="guidImages" id="bmpPic1" />
+        <Strings>
+          <ButtonText>YouTube</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+    <Bitmaps>
+      <Bitmap guid="guidImages" href="Resources\YouTubeToolsCommand.png" usedList="bmpPic1"/>
+    </Bitmaps>
+  </Commands>
+
+
+  <Symbols>
+    <!-- This is the package guid. -->
+    <GuidSymbol name="guidYouTubeToolsPackage" value="{7c1e38b6-06d1-466e-9a11-26b965340370}" />
+
+    <!-- This is the guid used to group the menu commands together -->
+    <GuidSymbol name="guidYouTubeToolsPackageCmdSet" value="{e966f631-c68d-4890-8a70-222803f5f9c3}">
+      <IDSymbol name="YouTubeToolsCommandId" value="0x0100" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidImages" value="{366f0771-05b9-499d-9399-219074a239c2}" >
+      <IDSymbol name="bmpPic1" value="1" />
+    </GuidSymbol>
+  </Symbols>
+</CommandTable>
