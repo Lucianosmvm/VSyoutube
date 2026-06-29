@@ -18,6 +18,8 @@ namespace YouTubeToolbar
         private const string SearchUrl = "https://www.youtube.com/results?search_query=";
         private const string SearchPlaceholder = "Search YouTube   ";
 
+        private bool isInitialized;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="YouTubeToolsControl"/> class.
         /// </summary>
@@ -29,6 +31,17 @@ namespace YouTubeToolbar
 
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
+            // Loaded fires every time the control re-attaches to the visual tree
+            // (showing the tool window, switching tabs, redocking). Only navigate
+            // on the first load so the page is not reloaded during the VS session.
+            // The control is recreated on the next VS start, which reloads then.
+            if (this.isInitialized)
+            {
+                return;
+            }
+
+            this.isInitialized = true;
+
             try
             {
                 // Initialize the WebView2 environment and open YouTube.
