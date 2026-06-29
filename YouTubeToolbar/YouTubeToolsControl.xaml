@@ -20,6 +20,8 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <TextBox x:Name="txbSearch" Grid.Column="0" Height="24" Margin="0,0,5,0"
@@ -27,15 +29,26 @@
                      Text="Search YouTube   " GotFocus="txbSearch_GotFocus" LostFocus="txbSearch_LostFocus"
                      FontStyle="Italic" Foreground="#FF787878"/>
 
-            <Button x:Name="btnSearch" Grid.Column="1" Width="60" Height="24" Margin="0,0,5,0"
+            <Button x:Name="btnSearch" Grid.Column="1" Width="55" Height="24" Margin="0,0,4,0"
                     Content="Search" Click="buttonClickedControll"/>
-            <Button x:Name="btnHome" Grid.Column="2" Width="50" Height="24" Margin="0,0,5,0"
-                    Content="Home" Click="buttonClickedControll"/>
-            <Button x:Name="btnExternal" Grid.Column="3" Width="60" Height="24"
-                    Content="Browser" Click="buttonClickedControll"/>
+            <Button x:Name="btnHome" Grid.Column="2" Width="40" Height="24" Margin="0,0,4,0"
+                    Content="YT" ToolTip="YouTube home" Click="buttonClickedControll"/>
+            <Button x:Name="btnGoogle" Grid.Column="3" Width="55" Height="24" Margin="0,0,4,0"
+                    Content="Google" ToolTip="Sair do YouTube e ir para o Google" Click="buttonClickedControll"/>
+            <Button x:Name="btnExternal" Grid.Column="4" Width="55" Height="24" Margin="0,0,4,0"
+                    Content="Browser" ToolTip="Abrir no navegador externo" Click="buttonClickedControll"/>
+            <Button x:Name="btnOff" Grid.Column="5" Width="40" Height="24"
+                    Content="Off" ToolTip="Desligar: tela preta e desconectar" Click="buttonClickedControll"/>
         </Grid>
 
         <!-- Embedded YouTube -->
         <wv2:WebView2 Grid.Row="1" x:Name="webView" Margin="5,0,5,5"/>
+
+        <!-- Black "off" overlay: nothing, no connection -->
+        <Border Grid.Row="1" x:Name="blackOverlay" Background="Black"
+                Margin="5,0,5,5" Visibility="Collapsed">
+            <TextBlock Text="Desligado" Foreground="#FF555555" FontSize="13"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
     </Grid>
 </UserControl>

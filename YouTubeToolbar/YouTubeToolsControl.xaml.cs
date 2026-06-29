@@ -15,10 +15,15 @@ namespace YouTubeToolbar
     public partial class YouTubeToolsControl : UserControl
     {
         private const string HomeUrl = "https://www.youtube.com/";
+        private const string GoogleUrl = "https://www.google.com/";
         private const string SearchUrl = "https://www.youtube.com/results?search_query=";
         private const string SearchPlaceholder = "Search YouTube   ";
 
         private bool isInitialized;
+
+        // True when the user pressed Off. Blocks auto-resume so it stays
+        // disconnected until the user explicitly turns it back on.
+        private bool isOff;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="YouTubeToolsControl"/> class.
@@ -66,17 +71,75 @@ namespace YouTubeToolbar
             switch (content)
             {
                 case "btnSearch":
+                    this.TurnOn();
                     this.DoSearch();
                     break;
 
                 case "btnHome":
+                    this.TurnOn();
                     this.Navigate(HomeUrl);
+                    break;
+
+                case "btnGoogle":
+                    this.TurnOn();
+                    this.Navigate(GoogleUrl);
                     break;
 
                 case "btnExternal":
                     this.OpenInExternalBrowser();
                     break;
+
+                case "btnOff":
+                    // Toggle: Off suspends/disconnects, On resumes.
+                    if (this.isOff)
+                    {
+                        this.TurnOn();
+                    }
+                    else
+                    {
+                        this.TurnOff();
+                    }
+
+                    break;
             }
+        }
+
+        /// <summary>
+        /// Disconnects the view: shows a black overlay and suspends the WebView2
+        /// so YouTube stops streaming/connecting. Stays off until the user
+        /// presses On.
+        /// </summary>
+        private async void TurnOff()
+        {
+            this.isOff = true;
+            this.blackOverlay.Visibility = Visibility.Visible;
+            this.webView.Visibility = Visibility.Collapsed;
+            this.btnOff.Content = "On";
+
+            try
+            {
+                // TrySuspendAsync only succeeds while the control is hidden,
+                // which is why it runs after collapsing the WebView2.
+                if (this.webView.CoreWebView2 != null)
+                {
+                    await this.webView.CoreWebView2.TrySuspendAsync();
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// Resumes the view from the Off state and shows YouTube again.
+        /// </summary>
+        private void TurnOn()
+        {
+            this.isOff = false;
+            this.blackOverlay.Visibility = Visibility.Collapsed;
+            this.webView.Visibility = Visibility.Visible;
+            this.btnOff.Content = "Off";
+            this.webView.CoreWebView2?.Resume();
         }
 
         private void txbSearch_KeyDown(object sender, KeyEventArgs e)
